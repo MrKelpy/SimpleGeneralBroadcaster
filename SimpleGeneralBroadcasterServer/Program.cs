@@ -27,7 +27,7 @@ namespace SimpleGeneralBroadcasterServer
         /// <summary>
         /// Initialises a FileSystem for easy file management.
         /// </summary>
-        private static FileManager FileSystem { get; } = new FileManager(".");
+        private static FileManager FileSystem { get; } = new FileManager();
 
         /// <summary>
         /// Sets up everything needed for the server to run and kick starts the server.
