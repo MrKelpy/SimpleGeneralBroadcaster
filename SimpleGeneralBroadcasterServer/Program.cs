@@ -96,6 +96,7 @@ namespace SimpleGeneralBroadcasterServer
                 // Set up the client socket server-wise, before the connection
                 client.ReceiveTimeout = 10000;
                 string clientIPAddr = ((IPEndPoint) client.RemoteEndPoint).Address.ToString();
+                Logging.LOGGER.Info($"Connection received from {clientIPAddr}");
                 
                 // Check if the IP Address is whitelisted, if not, close the connection.
                 string whitelistPath = FileSystem.AddDocument("ip-whitelist.cfg");
@@ -105,8 +106,12 @@ namespace SimpleGeneralBroadcasterServer
                 {
                     client.Send(Encoding.UTF8.GetBytes("BLOCKED<EOF>"));
                     client.Close();
+                    Logging.LOGGER.Warn($"Connection from {clientIPAddr} was blocked.");
                     continue;
                 }
+                
+                // Log the connection acception
+                Logging.LOGGER.Info($"Connection from {clientIPAddr} accepted.");
 
                 // Once a connection is established, read the message, on a 1024 byte buffer.
                 byte[] buffer = new byte[1024];
@@ -135,6 +140,7 @@ namespace SimpleGeneralBroadcasterServer
                 }
                 
                 // The message has been received, and the connection can be closed, and we can try for a command.
+                Logging.LOGGER.Info($"Message received from {clientIPAddr}: {data}");
                 client.Send(Encoding.UTF8.GetBytes("OK<EOF>"));
                 client.Close();
                 
