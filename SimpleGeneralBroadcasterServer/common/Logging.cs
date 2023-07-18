@@ -154,12 +154,12 @@ namespace MCSMLauncher.common
             string[] formats = new string[2];
 
             formats[0] = this.ConsoleLoggingFormat.Clone().ToString()
-                .Replace("%DATE%", DateTime.Now.ToString("F"))
+                .Replace("%DATE%", DateTime.Now.ToString("g"))
                 .Replace("%LEVEL%", level)
                 .Replace("%MESSAGE%", message);
 
             formats[1] = this.FileLoggingFormat.Clone().ToString()
-                .Replace("%DATE%", DateTime.Now.ToString("F"))
+                .Replace("%DATE%", DateTime.Now.ToString("g"))
                 .Replace("%LEVEL%", level)
                 .Replace("%MESSAGE%", message);
 

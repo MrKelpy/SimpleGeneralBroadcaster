@@ -90,7 +90,8 @@ namespace SimpleGeneralBroadcasterServer
             while (true)
             {
                 // Wait for a connection, suspending the thread until it arrives.
-                Console.WriteLine("Waiting for a connection...");
+                Logging.LOGGER.Info($"Running server on {endpoint.Address}:{endpoint.Port}");
+                Logging.LOGGER.Info("Waiting for a connection...", LoggingType.CONSOLE);
                 Socket client = listener.Accept();
                     
                 // Set up the client socket server-wise, before the connection
@@ -123,6 +124,7 @@ namespace SimpleGeneralBroadcasterServer
                     while (true)
                     {
                         int byteData = client.Receive(buffer);
+                        Logging.LOGGER.Info($"Received data from client with size {byteData} bytes.");
                         data += Encoding.UTF8.GetString(buffer, 0, byteData); // UTF-8 Message Support
                         
                         if (data.IndexOf("<EOF>", StringComparison.Ordinal) > -1)
@@ -137,6 +139,7 @@ namespace SimpleGeneralBroadcasterServer
                     Logging.LOGGER.Warn($"Socket from {clientIPAddr} timed out, closing connection.");
                     client.Send(Encoding.UTF8.GetBytes("TIMEOUT<EOF>"));
                     client.Close();
+                    continue;
                 }
                 
                 // The message has been received, and the connection can be closed, and we can try for a command.
@@ -158,7 +161,7 @@ namespace SimpleGeneralBroadcasterServer
         {
             // Check if the message does not match a command, if so, return.
             Dictionary<string, string> commands = ParseCommandConfigurations();
-            if (commands.ContainsKey(message)) return;
+            if (!commands.ContainsKey(message)) return;
             
             // Otherwise, the message is a valid command, and can be run.
             string command = commands[message];
