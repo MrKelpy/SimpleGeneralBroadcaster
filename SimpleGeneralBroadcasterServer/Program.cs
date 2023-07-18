@@ -31,32 +31,45 @@ namespace SimpleGeneralBroadcasterServer
 
         /// <summary>
         /// Sets up everything needed for the server to run and kick starts the server.
+        /// 
+        /// Command line arguments:
+        /// "-i": Defines the IP Address to be used.
+        /// "-p": Defines the port to be used.
         /// </summary>
         /// <param name="args">The command-line arguments for the server running</param>
         public static void Main(string[] args)
         {
-            // Set up the configuration files for the server.
-            Program.SetupConfiguration();
-            
-            // Get the IP address of the local machine.
-            IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-            
-            // If no IPv4 address is found, throw an exception.
-            if (ipAddr == null) throw new SystemException("No IPv4 address found for the local machine.");
-
-            // Create a TCP/IP socket typed as a stream for the listener.
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 62300); // Local endpoint
-            Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            // Bind the socket to the local endpoint, and listen for incoming connections.
             try
             {
+                // Set up the configuration files for the server.
+                Program.SetupConfiguration();
+                
+                // Get the IP address of the local machine.
+                IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+                IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+                int port = 62300;
+                
+                // If there is a command line argument specifying the ip address, use that instead.
+                if (args.Length > 0 && args.Contains("-i"))
+                    ipAddr = IPAddress.Parse(args[args.ToList().IndexOf("-i") + 1]);
+                    
+                // If there is a command line argument specifying the port, use that instead.
+                if (args.Length > 0 && args.Contains("-p"))
+                    port = int.Parse(args[args.ToList().IndexOf("-p") + 1]);
+
+                // If no IPv4 address is found, throw an exception.
+                if (ipAddr == null) throw new SystemException("No IPv4 address found for the local machine.");
+
+                // Create a TCP/IP socket typed as a stream for the listener.
+                IPEndPoint localEndPoint = new IPEndPoint(ipAddr, port); // Local endpoint
+                Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Bind the socket to the local endpoint, and listen for incoming connections.
                 RunServer(localEndPoint, listener);
             }
             catch (Exception e) { Logging.LOGGER.Fatal(e); }
         }
-
+        
         /// <summary>
         /// Creates the configuration files for the server if they don't exist.
         /// These will be populated by intructions from the app.config file.
@@ -86,11 +99,11 @@ namespace SimpleGeneralBroadcasterServer
         {
             listener.Bind(endpoint);
             listener.Listen(5);
+            Logging.LOGGER.Info($"Running server on {endpoint.Address}:{endpoint.Port}");
 
             while (true)
             {
                 // Wait for a connection, suspending the thread until it arrives.
-                Logging.LOGGER.Info($"Running server on {endpoint.Address}:{endpoint.Port}");
                 Logging.LOGGER.Info("Waiting for a connection...", LoggingType.CONSOLE);
                 Socket client = listener.Accept();
                     
@@ -165,7 +178,7 @@ namespace SimpleGeneralBroadcasterServer
             
             // Otherwise, the message is a valid command, and can be run.
             string command = commands[message];
-            Process.Start(command);
+            Process.Start("cmd.exe", "/c " +command);
         }
 
         /// <summary>
@@ -188,7 +201,7 @@ namespace SimpleGeneralBroadcasterServer
 
                 // Ensure that the line is a valid mapping, and add it to the dictionary.
                 if (splitLine.Length != 2) continue;
-                commandMappings.Add(splitLine[0], splitLine[1]);
+                commandMappings.Add(splitLine[0].Trim(), splitLine[1].Trim());
             }
 
             return commandMappings;
