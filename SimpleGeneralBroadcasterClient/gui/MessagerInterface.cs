@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
+// ReSharper disable InconsistentNaming
 
 namespace SimpleGeneralBroadcasterClient.gui
 {
@@ -25,7 +26,12 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="e">The event arguments</param>
         private void ButtonBroadcast_Click(object sender, EventArgs e)
         {
+            // Broadcast the message if the broadcast mode is enabled
+            if (CheckBoxBroadcast.Checked)
+                BroadcastMessage(TextBoxSubnet.Text, TextBoxMessage.Text, null);
             
+            // Send the message to the specified IP address if the broadcast mode is disabled
+            else SendToIP(TextBoxIPAddress.Text, TextBoxMessage.Text, null);
         }
         
         /// <summary>
