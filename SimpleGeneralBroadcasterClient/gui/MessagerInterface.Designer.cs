@@ -46,7 +46,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // ButtonBroadcast
             // 
-            this.ButtonBroadcast.Location = new System.Drawing.Point(11, 189);
+            this.ButtonBroadcast.Location = new System.Drawing.Point(11, 221);
             this.ButtonBroadcast.Name = "ButtonBroadcast";
             this.ButtonBroadcast.Size = new System.Drawing.Size(327, 49);
             this.ButtonBroadcast.TabIndex = 0;
@@ -70,7 +70,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxSubnet
             // 
-            this.TextBoxSubnet.Location = new System.Drawing.Point(126, 41);
+            this.TextBoxSubnet.Location = new System.Drawing.Point(125, 75);
             this.TextBoxSubnet.Name = "TextBoxSubnet";
             this.TextBoxSubnet.Size = new System.Drawing.Size(212, 26);
             this.TextBoxSubnet.TabIndex = 2;
@@ -80,14 +80,14 @@ namespace SimpleGeneralBroadcasterClient.gui
             // TextBoxIPAddress
             // 
             this.TextBoxIPAddress.Enabled = false;
-            this.TextBoxIPAddress.Location = new System.Drawing.Point(126, 80);
+            this.TextBoxIPAddress.Location = new System.Drawing.Point(125, 114);
             this.TextBoxIPAddress.Name = "TextBoxIPAddress";
             this.TextBoxIPAddress.Size = new System.Drawing.Size(212, 26);
             this.TextBoxIPAddress.TabIndex = 3;
             // 
             // LabelSubnetMask
             // 
-            this.LabelSubnetMask.Location = new System.Drawing.Point(12, 41);
+            this.LabelSubnetMask.Location = new System.Drawing.Point(11, 75);
             this.LabelSubnetMask.Name = "LabelSubnetMask";
             this.LabelSubnetMask.Size = new System.Drawing.Size(108, 29);
             this.LabelSubnetMask.TabIndex = 4;
@@ -96,7 +96,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 79);
+            this.label1.Location = new System.Drawing.Point(11, 113);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 29);
             this.label1.TabIndex = 5;
@@ -105,7 +105,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(25, 115);
+            this.label2.Location = new System.Drawing.Point(25, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(302, 29);
             this.label2.TabIndex = 7;
@@ -114,7 +114,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxMessage
             // 
-            this.TextBoxMessage.Location = new System.Drawing.Point(11, 147);
+            this.TextBoxMessage.Location = new System.Drawing.Point(11, 179);
             this.TextBoxMessage.Name = "TextBoxMessage";
             this.TextBoxMessage.Size = new System.Drawing.Size(327, 26);
             this.TextBoxMessage.TabIndex = 6;
@@ -130,7 +130,6 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxPort
             // 
-            this.TextBoxPort.Enabled = false;
             this.TextBoxPort.Location = new System.Drawing.Point(266, 12);
             this.TextBoxPort.Name = "TextBoxPort";
             this.TextBoxPort.Size = new System.Drawing.Size(72, 26);
@@ -141,7 +140,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 259);
+            this.ClientSize = new System.Drawing.Size(351, 280);
             this.Controls.Add(this.TextBoxPort);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);

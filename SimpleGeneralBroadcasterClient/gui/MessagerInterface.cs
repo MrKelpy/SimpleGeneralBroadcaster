@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 // ReSharper disable InconsistentNaming
@@ -68,15 +69,33 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="inter">The broadcasting interface to update with the IP response</param>
         private void SendToIP(string ipAddress, string message, BroadcastingInterface inter)
         {
+            // Parse the IP address and port
             IPAddress ip = IPAddress.Parse(ipAddress);
             int port = int.Parse(TextBoxPort.Text);
-
+            
+            // Send the message asynchronously and updates the broadcasting interface
+            Task.Run(() => this.SendMessage(ip, port, message, inter));
         }
         
-        
-        private async Task ConnectToServer(string ipAddress, int port)
+        /// <summary>
+        /// Asynchronously connects to the server at the specified IP address and port,
+        /// sends the message, waits for a response, and disconnects.
+        /// </summary>
+        /// <param name="ipAddress">The IPAddress to connect to</param>
+        /// <param name="port">The port to use</param>
+        /// <param name="message">The message to be sent</param>
+        /// <param name="inter">The broadcasting interface to update with the IP response</param>
+        private async Task SendMessage(IPAddress ipAddress, int port, string message, BroadcastingInterface inter)
         {
+            // Create the socket and connect to it
+            IPEndPoint endPoint = new (ipAddress, port);
+            using Socket client = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
+            // Make sure that the message is according to the protocol by adding the EOF tag if it's not there
+            message = message.EndsWith("<EOF>") ? message : message + "<EOF>";
+            
+            await client.ConnectAsync(endPoint);
+            // TODO: Send the message to the server and wait for a response (On a cancellation token timeout of 12s)
         }
         
         /// <summary>
@@ -101,11 +120,13 @@ namespace SimpleGeneralBroadcasterClient.gui
             // Ensure that the subnet box is formatted correctly, as in an Ipv4 address format (XXX.XXX.XXX.XXX)
             bool pointCount = this.TextBoxSubnet.Text.Count(x => x == '.') == 3;
             bool onlyNumbers = this.TextBoxSubnet.Text.All(x => char.IsDigit(x) || x == '.');
-            bool onlyBinaryOctets = this.TextBoxSubnet.Text.Split('.').All(x => Convert.ToInt32(x) < 256 && Convert.ToInt32(x) >= 0);
+            
+            bool onlyBinaryOctets = this.TextBoxSubnet.Text.Split('.')
+                .All(x => int.TryParse(x, out int y) && y < 256 && y >= 0);
             
             // The first two octets can't be 0, to allow only local networks
-            bool firstOctet = Convert.ToInt32(this.TextBoxSubnet.Text.Split('.')[0]) != 0;
-            bool secondOctet = Convert.ToInt32(this.TextBoxSubnet.Text.Split('.')[1]) != 0;
+            bool firstOctet = int.TryParse(this.TextBoxSubnet.Text.Split('.')[0], out int evalFO) && evalFO != 0;
+            bool secondOctet = int.TryParse(this.TextBoxSubnet.Text.Split('.')[1], out int evalSO) && evalSO != 0;
             bool onlyLocalNetworks = firstOctet && secondOctet;
             
             // Change the validity state of the text box
@@ -123,7 +144,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         {
             // Ensure that the port box is formatted correctly, as in a number between 0 and 65535
             bool onlyNumbers = this.TextBoxPort.Text.All(char.IsDigit);
-            bool validPort = Convert.ToInt32(this.TextBoxPort.Text) < 65536 && Convert.ToInt32(this.TextBoxPort.Text) >= 0;
+            bool validPort = int.TryParse(this.TextBoxPort.Text, out int port) && port < 65536 && port >= 0;
             
             // Change the validity state of the text box
             ChangeTextBoxValidityState((TextBox) sender, onlyNumbers && validPort);
