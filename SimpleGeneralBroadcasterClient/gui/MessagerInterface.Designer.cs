@@ -50,6 +50,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.ButtonBroadcast.TabIndex = 0;
             this.ButtonBroadcast.Text = "Start Broadcast";
             this.ButtonBroadcast.UseVisualStyleBackColor = true;
+            this.ButtonBroadcast.Click += new System.EventHandler(this.ButtonBroadcast_Click);
             // 
             // CheckBoxBroadcast
             // 
