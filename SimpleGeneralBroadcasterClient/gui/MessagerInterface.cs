@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 // ReSharper disable InconsistentNaming
 
@@ -65,10 +66,16 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="ipAddress">The ip address to send the message to</param>
         /// <param name="message">The message to be sent</param>
         /// <param name="inter">The broadcasting interface to update with the IP response</param>
-
         private void SendToIP(string ipAddress, string message, BroadcastingInterface inter)
         {
             IPAddress ip = IPAddress.Parse(ipAddress);
+            int port = int.Parse(TextBoxPort.Text);
+
+        }
+        
+        
+        private async Task ConnectToServer(string ipAddress, int port)
+        {
             
         }
         
@@ -101,16 +108,38 @@ namespace SimpleGeneralBroadcasterClient.gui
             bool secondOctet = Convert.ToInt32(this.TextBoxSubnet.Text.Split('.')[1]) != 0;
             bool onlyLocalNetworks = firstOctet && secondOctet;
             
-            if (pointCount && onlyNumbers && onlyBinaryOctets && onlyLocalNetworks)
-            {
-                this.TextBoxSubnet.BackColor = System.Drawing.Color.White;
-                this.ButtonBroadcast.Enabled = true;
-            }
-            else
-            {
-                this.TextBoxSubnet.BackColor = System.Drawing.Color.Red;
-                this.ButtonBroadcast.Enabled = false;
-            }
+            // Change the validity state of the text box
+            ChangeTextBoxValidityState((TextBox) sender, pointCount && onlyNumbers && onlyBinaryOctets && onlyLocalNetworks);
+
+        }
+
+        /// <summary>
+        /// Ensures that the port box is formatted correctly, as in a number between 0 and 65535
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void TextBoxPort_TextChanged(object sender, EventArgs e)
+        {
+            // Ensure that the port box is formatted correctly, as in a number between 0 and 65535
+            bool onlyNumbers = this.TextBoxPort.Text.All(char.IsDigit);
+            bool validPort = Convert.ToInt32(this.TextBoxPort.Text) < 65536 && Convert.ToInt32(this.TextBoxPort.Text) >= 0;
+            
+            // Change the validity state of the text box
+            ChangeTextBoxValidityState((TextBox) sender, onlyNumbers && validPort);
+        }
+
+        /// <summary>
+        /// Changes the TextBox validity state to either valid or invalid.
+        /// When valid, the text is black and the broadcast button is enabled.
+        /// When invalid, the text is red and the broadcast button is disabled.
+        /// </summary>
+        /// <param name="sender">The command sender</param>
+        /// <param name="state">The state</param>
+        private void ChangeTextBoxValidityState(TextBox sender, bool state)
+        {
+            sender.ForeColor = state ? System.Drawing.Color.Black : System.Drawing.Color.Firebrick;
+            ButtonBroadcast.Enabled = state;
         }
     }
 }

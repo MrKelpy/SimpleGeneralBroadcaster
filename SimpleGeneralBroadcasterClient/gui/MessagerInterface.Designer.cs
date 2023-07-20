@@ -40,11 +40,13 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.TextBoxMessage = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TextBoxPort = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ButtonBroadcast
             // 
-            this.ButtonBroadcast.Location = new System.Drawing.Point(12, 228);
+            this.ButtonBroadcast.Location = new System.Drawing.Point(11, 189);
             this.ButtonBroadcast.Name = "ButtonBroadcast";
             this.ButtonBroadcast.Size = new System.Drawing.Size(327, 49);
             this.ButtonBroadcast.TabIndex = 0;
@@ -54,12 +56,12 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // CheckBoxBroadcast
             // 
-            this.CheckBoxBroadcast.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.CheckBoxBroadcast.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CheckBoxBroadcast.Checked = true;
             this.CheckBoxBroadcast.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxBroadcast.Location = new System.Drawing.Point(12, 12);
             this.CheckBoxBroadcast.Name = "CheckBoxBroadcast";
-            this.CheckBoxBroadcast.Size = new System.Drawing.Size(326, 44);
+            this.CheckBoxBroadcast.Size = new System.Drawing.Size(159, 26);
             this.CheckBoxBroadcast.TabIndex = 1;
             this.CheckBoxBroadcast.Text = "Broadcast Mode";
             this.CheckBoxBroadcast.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -68,7 +70,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxSubnet
             // 
-            this.TextBoxSubnet.Location = new System.Drawing.Point(126, 73);
+            this.TextBoxSubnet.Location = new System.Drawing.Point(126, 41);
             this.TextBoxSubnet.Name = "TextBoxSubnet";
             this.TextBoxSubnet.Size = new System.Drawing.Size(212, 26);
             this.TextBoxSubnet.TabIndex = 2;
@@ -78,14 +80,14 @@ namespace SimpleGeneralBroadcasterClient.gui
             // TextBoxIPAddress
             // 
             this.TextBoxIPAddress.Enabled = false;
-            this.TextBoxIPAddress.Location = new System.Drawing.Point(126, 112);
+            this.TextBoxIPAddress.Location = new System.Drawing.Point(126, 80);
             this.TextBoxIPAddress.Name = "TextBoxIPAddress";
             this.TextBoxIPAddress.Size = new System.Drawing.Size(212, 26);
             this.TextBoxIPAddress.TabIndex = 3;
             // 
             // LabelSubnetMask
             // 
-            this.LabelSubnetMask.Location = new System.Drawing.Point(12, 73);
+            this.LabelSubnetMask.Location = new System.Drawing.Point(12, 41);
             this.LabelSubnetMask.Name = "LabelSubnetMask";
             this.LabelSubnetMask.Size = new System.Drawing.Size(108, 29);
             this.LabelSubnetMask.TabIndex = 4;
@@ -94,7 +96,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 111);
+            this.label1.Location = new System.Drawing.Point(12, 79);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 29);
             this.label1.TabIndex = 5;
@@ -103,7 +105,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(26, 154);
+            this.label2.Location = new System.Drawing.Point(25, 115);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(302, 29);
             this.label2.TabIndex = 7;
@@ -112,16 +114,36 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxMessage
             // 
-            this.TextBoxMessage.Location = new System.Drawing.Point(12, 186);
+            this.TextBoxMessage.Location = new System.Drawing.Point(11, 147);
             this.TextBoxMessage.Name = "TextBoxMessage";
             this.TextBoxMessage.Size = new System.Drawing.Size(327, 26);
             this.TextBoxMessage.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(188, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 29);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Port";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TextBoxPort
+            // 
+            this.TextBoxPort.Enabled = false;
+            this.TextBoxPort.Location = new System.Drawing.Point(266, 12);
+            this.TextBoxPort.Name = "TextBoxPort";
+            this.TextBoxPort.Size = new System.Drawing.Size(72, 26);
+            this.TextBoxPort.TabIndex = 10;
+            this.TextBoxPort.TextChanged += new System.EventHandler(this.TextBoxPort_TextChanged);
             // 
             // MessagerInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 297);
+            this.ClientSize = new System.Drawing.Size(351, 259);
+            this.Controls.Add(this.TextBoxPort);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TextBoxMessage);
             this.Controls.Add(this.label1);
@@ -131,13 +153,15 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.Controls.Add(this.CheckBoxBroadcast);
             this.Controls.Add(this.ButtonBroadcast);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(373, 353);
-            this.MinimumSize = new System.Drawing.Size(373, 353);
             this.Name = "MessagerInterface";
             this.Text = "MessagerInterface";
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.TextBox TextBoxPort;
+
+        private System.Windows.Forms.Label label3;
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TextBoxMessage;
