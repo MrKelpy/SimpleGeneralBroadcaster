@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 // ReSharper disable InconsistentNaming
@@ -92,7 +93,9 @@ namespace SimpleGeneralBroadcasterClient.gui
             using Socket client = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
             // Make sure that the message is according to the protocol by adding the EOF tag if it's not there
-            message = message.EndsWith("<EOF>") ? message : message + "<EOF>";
+            // Encode the message to bytes in UTF-8
+            message = message.EndsWith("<|EOF|>") ? message : message + "<|EOF|>";
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             
             await client.ConnectAsync(endPoint);
             // TODO: Send the message to the server and wait for a response (On a cancellation token timeout of 12s)
