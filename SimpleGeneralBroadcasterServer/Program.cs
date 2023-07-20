@@ -10,7 +10,7 @@ using MCSMLauncher.common;
 using PgpsUtilsAEFC.common;
 using PgpsUtilsAEFC.utils;
 using static System.Configuration.ConfigurationSettings;
-
+// ReSharper disable InvalidXmlDocComment
 // ReSharper disable InconsistentNaming
 
 namespace SimpleGeneralBroadcasterServer
@@ -20,6 +20,14 @@ namespace SimpleGeneralBroadcasterServer
     /// checking if those connections transmit a configured string from a whitelisted
     /// source IP address. If the string is matched with a configuration, then
     /// run the command associated with the message.
+    ///
+    /// <MessagingProtocol>
+    /// - All messages should be finished by the flag "<|EOF|>".
+    /// - Additional flags may be added to the end EOF flag, such as "<|EOF|FLAG|...>".
+    /// - The server should only respond using flags.
+    /// - The client is only allowed to use the EOF flag.
+    /// - The server is allowed to use any flag.
+    /// </MessagingProtocol>
     /// </summary>
     internal static class Program
     {
@@ -118,7 +126,7 @@ namespace SimpleGeneralBroadcasterServer
 
                 if (!whitelist.Contains(clientIPAddr))
                 {
-                    client.Send(Encoding.UTF8.GetBytes("BLOCKED<EOF>"));
+                    client.Send(Encoding.UTF8.GetBytes("<|EOF|BLOCKED|>"));
                     client.Close();
                     Logging.LOGGER.Warn($"Connection from {clientIPAddr} was blocked.");
                     continue;
@@ -133,14 +141,14 @@ namespace SimpleGeneralBroadcasterServer
 
                 try
                 {
-                    // Receive the data into the buffer in chunks, breaking when the message is complete. (<EOF> is found)
+                    // Receive the data into the buffer in chunks, breaking when the message is complete. (<|EOF|> is found)
                     while (true)
                     {
                         int byteData = client.Receive(buffer);
                         Logging.LOGGER.Info($"Received data from client with size {byteData} bytes.");
                         data += Encoding.UTF8.GetString(buffer, 0, byteData); // UTF-8 Message Support
                         
-                        if (data.IndexOf("<EOF>", StringComparison.Ordinal) > -1)
+                        if (data.IndexOf("<|EOF|>", StringComparison.Ordinal) > -1)
                             break;
                     }
                 }
@@ -150,18 +158,18 @@ namespace SimpleGeneralBroadcasterServer
                 {
                     if (e.SocketErrorCode != SocketError.TimedOut) return;
                     Logging.LOGGER.Warn($"Socket from {clientIPAddr} timed out, closing connection.");
-                    client.Send(Encoding.UTF8.GetBytes("TIMEOUT<EOF>"));
+                    client.Send(Encoding.UTF8.GetBytes("<|EOF|TIMEOUT|>"));
                     client.Close();
                     continue;
                 }
                 
                 // The message has been received, and the connection can be closed, and we can try for a command.
                 Logging.LOGGER.Info($"Message received from {clientIPAddr}: {data}");
-                client.Send(Encoding.UTF8.GetBytes("OK<EOF>"));
+                client.Send(Encoding.UTF8.GetBytes("<|EOF|OK|>"));
                 client.Close();
                 
-                // Remove the <EOF> from the message, so it can be mapped to a command.
-                string cleanData = data.Replace("<EOF>", "").Trim();
+                // Remove the <|EOF|> from the message, so it can be mapped to a command.
+                string cleanData = data.Replace("<|EOF|>", "").Trim();
                 TryRunCommand(cleanData);
             }
         }
