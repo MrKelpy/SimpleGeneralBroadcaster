@@ -29,12 +29,16 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="e">The event arguments</param>
         private void ButtonBroadcast_Click(object sender, EventArgs e)
         {
+            // Create a new broadcasting interface to update with the IP responses
+            BroadcastingInterface inter = new ();
+            inter.ShowDialog();
+            
             // Broadcast the message if the broadcast mode is enabled
             if (CheckBoxBroadcast.Checked)
-                BroadcastMessage(TextBoxSubnet.Text, TextBoxMessage.Text, null);
+                BroadcastMessage(TextBoxSubnet.Text, TextBoxMessage.Text, inter);
             
             // Send the message to the specified IP address if the broadcast mode is disabled
-            else SendToIP(TextBoxIPAddress.Text, TextBoxMessage.Text, null);
+            else SendToIP(TextBoxIPAddress.Text, TextBoxMessage.Text, inter);
         }
         
         /// <summary>
