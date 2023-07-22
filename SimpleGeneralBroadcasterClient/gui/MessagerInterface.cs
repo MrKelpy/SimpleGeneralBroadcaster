@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 // ReSharper disable InconsistentNaming
@@ -19,6 +20,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         public MessagerInterface()
         {
             InitializeComponent();
+            CenterToScreen();
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         {
             // Create a new broadcasting interface to update with the IP responses
             BroadcastingInterface inter = new ();
-            inter.ShowDialog();
+            inter.Show();
             
             // Broadcast the message if the broadcast mode is enabled
             if (CheckBoxBroadcast.Checked)
@@ -50,19 +52,8 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="inter">The broadcasting interface to update with the IP responses</param>
         private void BroadcastMessage(string subnetMask, string message, BroadcastingInterface inter)
         {
-            // Get the subnet mask octets in an internally usable format (XXX.XXX.{O1}/XXX.{O2})
-            string[] subnetOctets = subnetMask.Split('.');
-            subnetOctets[2] = int.Parse(subnetOctets[2]) == 0 ? "{O1}" : subnetOctets[2];
-            subnetOctets[3] = int.Parse(subnetOctets[3]) == 0 ? "{O2}" : subnetOctets[2];
-
-            // Get all the subnet octet permutations
-            List<string> ipAddresses = (List<string>)
-                from i in Enumerable.Range(1, 254)
-                from j in Enumerable.Range(1, 254)
-                select TextBoxSubnet.Text.Replace("{O1}", i.ToString()).Replace("{O2}", j.ToString());
-            
-            // Send the message to all the ip addresses
-            foreach (string ipAddress in ipAddresses)
+            // Send the message to all the ip addresses in the subnet
+            foreach (string ipAddress in this.GetAllIPAddressesForSubnet(subnetMask))
             {
                 if (!inter.CanMessage) return;  // Stop sending messages if the user pressed the stop button
                 SendToIP(ipAddress, message, inter);
@@ -108,6 +99,36 @@ namespace SimpleGeneralBroadcasterClient.gui
             await client.ConnectAsync(endPoint);
             await client.SendAsync(new ArraySegment<byte>(messageBytes), SocketFlags.None);
             client.Close();
+        }
+        
+        /// <summary>
+        /// Returns all of the IP addresses for a subnet mask.
+        /// The octets for the number generation should be marked with a '0'.
+        /// </summary>
+        /// <param name="subnetMask">The subnet mask to use</param>
+        /// <returns>A list with all of the IP addresses in the subnet</returns>
+        private List<string> GetAllIPAddressesForSubnet(string subnetMask)
+        {
+            // Initialize the list of IP addresses and checks if the subnet mask is valid
+            List<string> ipAddresses = new ();
+            if (!subnetMask.Contains(".0")) return ipAddresses;
+            
+            // Get the regex object for the subnet mask replacement pattern
+            Regex replacementRegex = new (Regex.Escape("0"));
+            
+            // Generate all of the IP addresses for the subnet, replacing the rightmost '0' octet with the
+            // every number from 1 to 254, recursively calling this method if there are more '0' octets.
+            for (int i = 1; i < 255; i++)
+            {
+                // Replace the rightmost '0' octet with the current number
+                string ip = replacementRegex.Replace(subnetMask, i.ToString(), 1);
+                
+                // If there are more '0' octets, recursively call this method
+                if (ip.Contains(".0")) ipAddresses.AddRange(GetAllIPAddressesForSubnet(ip));
+                else ipAddresses.Add(ip);
+            }
+
+            return ipAddresses;
         }
         
         /// <summary>
@@ -174,5 +195,13 @@ namespace SimpleGeneralBroadcasterClient.gui
             sender.ForeColor = state ? System.Drawing.Color.Black : System.Drawing.Color.Firebrick;
             ButtonBroadcast.Enabled = state;
         }
+
+        /// <summary>
+        /// Prevent the message box from being empty
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void TextBoxMessage_TextChanged(object sender, EventArgs e) =>
+            ButtonBroadcast.Enabled = !string.IsNullOrWhiteSpace(this.TextBoxMessage.Text);
     }
 }

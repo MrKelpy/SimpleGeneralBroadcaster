@@ -46,6 +46,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // ButtonBroadcast
             // 
+            this.ButtonBroadcast.Enabled = false;
             this.ButtonBroadcast.Location = new System.Drawing.Point(11, 221);
             this.ButtonBroadcast.Name = "ButtonBroadcast";
             this.ButtonBroadcast.Size = new System.Drawing.Size(327, 49);
@@ -118,6 +119,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxMessage.Name = "TextBoxMessage";
             this.TextBoxMessage.Size = new System.Drawing.Size(327, 26);
             this.TextBoxMessage.TabIndex = 6;
+            this.TextBoxMessage.TextChanged += new System.EventHandler(this.TextBoxMessage_TextChanged);
             // 
             // label3
             // 

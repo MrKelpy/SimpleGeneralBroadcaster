@@ -42,9 +42,10 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxConsole.ForeColor = System.Drawing.Color.Lime;
             this.TextBoxConsole.Location = new System.Drawing.Point(12, 12);
             this.TextBoxConsole.Name = "TextBoxConsole";
+            this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.Size = new System.Drawing.Size(456, 244);
             this.TextBoxConsole.TabIndex = 0;
-            this.TextBoxConsole.Text = " Message sent to 192.168.1.5";
+            this.TextBoxConsole.Text = " Loading...\n";
             // 
             // ButtonEnd
             // 
@@ -66,6 +67,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BroadcastingInterface";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BroadcastingInterface_FormClosed);
             this.ResumeLayout(false);
         }
 

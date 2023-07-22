@@ -17,13 +17,14 @@ namespace SimpleGeneralBroadcasterClient.gui
         public BroadcastingInterface()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
         }
 
         /// <summary>
         /// Mentions that a message was sent to the specified IP address in the text box.
         /// </summary>
         /// <param name="ip">The IP address the message was sent to</param>
-        public void MentionIP(string ip) => TextBoxConsole.AppendText($"Sending message to {ip}...\n");
+        public void MentionIP(string ip) => TextBoxConsole.AppendText($" Sending message to {ip}...");
 
         /// <summary>
         /// Locks the end button and changes the CanMessage property to false, so that
@@ -34,7 +35,16 @@ namespace SimpleGeneralBroadcasterClient.gui
         private void ButtonEnd_Click(object sender, EventArgs e)
         {
             this.CanMessage = ButtonEnd.Enabled = false;
-            TextBoxConsole.AppendText($"Stopped sending messages.\n");
+            TextBoxConsole.AppendText(" Stopped sending messages.");
         }
+
+        /// <summary>
+        /// When the form is closed, the CanMessage property is set to false, so that the
+        /// ips stop being sent messages.
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void BroadcastingInterface_FormClosed(object sender, FormClosedEventArgs e) =>
+            this.CanMessage = false;
     }
 }
