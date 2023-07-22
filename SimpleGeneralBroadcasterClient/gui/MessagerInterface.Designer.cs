@@ -134,6 +134,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxPort.Name = "TextBoxPort";
             this.TextBoxPort.Size = new System.Drawing.Size(72, 26);
             this.TextBoxPort.TabIndex = 10;
+            this.TextBoxPort.Text = "62300";
             this.TextBoxPort.TextChanged += new System.EventHandler(this.TextBoxPort_TextChanged);
             // 
             // MessagerInterface
@@ -152,6 +153,8 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.Controls.Add(this.CheckBoxBroadcast);
             this.Controls.Add(this.ButtonBroadcast);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(373, 336);
+            this.MinimumSize = new System.Drawing.Size(373, 336);
             this.Name = "MessagerInterface";
             this.Text = "MessagerInterface";
             this.ResumeLayout(false);

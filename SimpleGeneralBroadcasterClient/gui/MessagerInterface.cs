@@ -63,7 +63,10 @@ namespace SimpleGeneralBroadcasterClient.gui
             
             // Send the message to all the ip addresses
             foreach (string ipAddress in ipAddresses)
+            {
+                if (!inter.CanMessage) return;  // Stop sending messages if the user pressed the stop button
                 SendToIP(ipAddress, message, inter);
+            }
         }
         
         /// <summary>
@@ -77,9 +80,10 @@ namespace SimpleGeneralBroadcasterClient.gui
             // Parse the IP address and port
             IPAddress ip = IPAddress.Parse(ipAddress);
             int port = int.Parse(TextBoxPort.Text);
+            inter.MentionIP(ipAddress);
             
             // Send the message asynchronously and updates the broadcasting interface
-            Task.Run(() => this.SendMessage(ip, port, message, inter));
+            Task.Run(() => this.SendMessage(ip, port, message));
         }
         
         /// <summary>
@@ -89,8 +93,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="ipAddress">The IPAddress to connect to</param>
         /// <param name="port">The port to use</param>
         /// <param name="message">The message to be sent</param>
-        /// <param name="inter">The broadcasting interface to update with the IP response</param>
-        private async Task SendMessage(IPAddress ipAddress, int port, string message, BroadcastingInterface inter)
+        private async Task SendMessage(IPAddress ipAddress, int port, string message)
         {
             // Create the socket and connect to it
             IPEndPoint endPoint = new (ipAddress, port);
@@ -101,8 +104,10 @@ namespace SimpleGeneralBroadcasterClient.gui
             message = message.EndsWith("<|EOF|>") ? message : message + "<|EOF|>";
             byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             
+            // Connect to the server, send the message, and close the connection
             await client.ConnectAsync(endPoint);
-            // TODO: Send the message to the server and wait for a response (On a cancellation token timeout of 12s)
+            await client.SendAsync(new ArraySegment<byte>(messageBytes), SocketFlags.None);
+            client.Close();
         }
         
         /// <summary>

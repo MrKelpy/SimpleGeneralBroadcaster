@@ -32,18 +32,46 @@ namespace SimpleGeneralBroadcasterClient.gui
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BroadcastingInterface));
+            this.TextBoxConsole = new System.Windows.Forms.RichTextBox();
+            this.ButtonEnd = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // TextBoxConsole
+            // 
+            this.TextBoxConsole.BackColor = System.Drawing.Color.Black;
+            this.TextBoxConsole.ForeColor = System.Drawing.Color.Lime;
+            this.TextBoxConsole.Location = new System.Drawing.Point(12, 12);
+            this.TextBoxConsole.Name = "TextBoxConsole";
+            this.TextBoxConsole.Size = new System.Drawing.Size(456, 244);
+            this.TextBoxConsole.TabIndex = 0;
+            this.TextBoxConsole.Text = " Message sent to 192.168.1.5";
+            // 
+            // ButtonEnd
+            // 
+            this.ButtonEnd.Location = new System.Drawing.Point(12, 263);
+            this.ButtonEnd.Name = "ButtonEnd";
+            this.ButtonEnd.Size = new System.Drawing.Size(456, 39);
+            this.ButtonEnd.TabIndex = 1;
+            this.ButtonEnd.Text = "Stop";
+            this.ButtonEnd.UseVisualStyleBackColor = true;
+            this.ButtonEnd.Click += new System.EventHandler(this.ButtonEnd_Click);
             // 
             // BroadcastingInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 268);
+            this.ClientSize = new System.Drawing.Size(480, 307);
+            this.Controls.Add(this.ButtonEnd);
+            this.Controls.Add(this.TextBoxConsole);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BroadcastingInterface";
-            this.Text = "BroadcastingInterface";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button ButtonEnd;
+
+        private System.Windows.Forms.RichTextBox TextBoxConsole;
 
         #endregion
     }
