@@ -42,7 +42,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxConsole.Location = new System.Drawing.Point(12, 12);
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
-            this.TextBoxConsole.Size = new System.Drawing.Size(456, 244);
+            this.TextBoxConsole.Size = new System.Drawing.Size(440, 230);
             this.TextBoxConsole.TabIndex = 0;
             this.TextBoxConsole.Text = " Loading...\n";
             // 
@@ -50,11 +50,13 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 270);
+            this.ClientSize = new System.Drawing.Size(464, 254);
             this.Controls.Add(this.TextBoxConsole);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(486, 310);
+            this.MinimumSize = new System.Drawing.Size(486, 310);
             this.Name = "BroadcastingInterface";
+            this.Text = "SGB Client - Broadcast";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BroadcastingInterface_FormClosed);
             this.ResumeLayout(false);
         }
