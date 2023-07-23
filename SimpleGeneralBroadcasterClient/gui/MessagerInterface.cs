@@ -133,39 +133,82 @@ namespace SimpleGeneralBroadcasterClient.gui
         
         /// <summary>
         /// Inverts the state of the IP Address text box relative to the broadcast check box.
-        /// Ensures that the broadcast checkbox's state is the same as the subnet box's state.
+        /// Ensures that the broadcast check box's state is the same as the subnet box's state.
         /// </summary>
         /// <param name="sender">The event sender</param>
         /// <param name="e">The event arguments</param>
         private void CheckBoxBroadcast_CheckedChanged(object sender, EventArgs e)
         {
             this.TextBoxIPAddress.Enabled = !this.CheckBoxBroadcast.Checked;
-            this.TextBoxSubnet.Enabled  = this.CheckBoxBroadcast.Checked;
+            this.TextBoxSubnet.Enabled = this.CheckBoxBroadcast.Checked;
         }
 
         /// <summary>
-        /// Ensure that the subnet box is formatted correctly, as in XXX.XXX.XXX.XXX
+        /// Ensure that the subnet box is formatted correctly, as in XXX.XXX.XXX.XXX (Ipv4)
         /// </summary>
         /// <param name="sender">The event sender</param>
         /// <param name="e">The event argument</param>
         private void TextBoxSubnet_TextChanged(object sender, EventArgs e)
         {
-            // Ensure that the subnet box is formatted correctly, as in an Ipv4 address format (XXX.XXX.XXX.XXX)
-            bool pointCount = this.TextBoxSubnet.Text.Count(x => x == '.') == 3;
-            bool onlyNumbers = this.TextBoxSubnet.Text.All(x => char.IsDigit(x) || x == '.');
-            
-            bool onlyBinaryOctets = this.TextBoxSubnet.Text.Split('.')
-                .All(x => int.TryParse(x, out int y) && y < 256 && y >= 0);
-            
-            // The first two octets can't be 0, to allow only local networks
-            bool firstOctet = int.TryParse(this.TextBoxSubnet.Text.Split('.')[0], out int evalFO) && evalFO != 0;
-            bool secondOctet = int.TryParse(this.TextBoxSubnet.Text.Split('.')[1], out int evalSO) && evalSO != 0;
-            bool onlyLocalNetworks = firstOctet && secondOctet;
-            
-            // Change the validity state of the text box
-            ChangeTextBoxValidityState((TextBox) sender, pointCount && onlyNumbers && onlyBinaryOctets && onlyLocalNetworks);
+            // Cast the sender to a text box
+            TextBox textBox = (TextBox) sender;
 
+            try
+            {
+                // Ensure that the subnet box is formatted correctly, as in an Ipv4 address format (XXX.XXX.XXX.XXX)
+                bool pointCount = textBox.Text.Count(x => x == '.') == 3;
+                bool onlyNumbers = textBox.Text.All(x => char.IsDigit(x) || x == '.');
+
+                bool onlyBinaryOctets = textBox.Text.Split('.')
+                    .All(x => int.TryParse(x, out int y) && y is < 256 and >= 0);
+
+                // The first two octets can't be 0, to allow only local networks
+                bool firstOctet = int.TryParse(textBox.Text.Split('.')[0], out int evalFO) && evalFO != 0;
+                bool secondOctet = int.TryParse(textBox.Text.Split('.')[1], out int evalSO) && evalSO != 0;
+                bool onlyLocalNetworks = firstOctet && secondOctet;
+
+                // Change the validity state of the text box
+                ChangeTextBoxValidityState((TextBox)sender,
+                    pointCount && onlyNumbers && onlyBinaryOctets && onlyLocalNetworks);
+            }
+            
+            // If an exception is thrown, the text box is invalid
+            catch (Exception) { ChangeTextBoxValidityState((TextBox) sender, false); }
         }
+        
+        /// <summary>
+        /// Ensures that the IP address box is formatted correctly, as in XXX.XXX.XXX.XXX (Ipv4)
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void TextBoxIPAddress_TextChanged(object sender, EventArgs e) =>
+            TextBoxSubnet_TextChanged(sender, e);
+        
+        /// <summary>
+        /// Prevent a disabled text box from being validated towards the button click. This
+        /// way, the user will be able to click the button even if the mode they're not in
+        /// is invalid.
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void TextBoxIPAddress_EnabledChanged(object sender, EventArgs e)
+        {
+            // Get the text box from the sender
+            TextBox textBox = (TextBox) sender;
+            
+            if (!textBox.Enabled) ChangeTextBoxValidityState(textBox, true);
+            else TextBoxSubnet_TextChanged(sender, e);
+        }
+        
+        /// <summary>
+        /// Prevent a disabled text box from being validated towards the button click. This
+        /// way, the user will be able to click the button even if the mode they're not in
+        /// is invalid.
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void TextBoxSubnet_EnabledChanged(object sender, EventArgs e) => 
+            TextBoxIPAddress_EnabledChanged(sender, e);
 
         /// <summary>
         /// Ensures that the port box is formatted correctly, as in a number between 0 and 65535
@@ -177,7 +220,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         {
             // Ensure that the port box is formatted correctly, as in a number between 0 and 65535
             bool onlyNumbers = this.TextBoxPort.Text.All(char.IsDigit);
-            bool validPort = int.TryParse(this.TextBoxPort.Text, out int port) && port < 65536 && port >= 0;
+            bool validPort = int.TryParse(this.TextBoxPort.Text, out int port) && port is < 65536 and >= 0;
             
             // Change the validity state of the text box
             ChangeTextBoxValidityState((TextBox) sender, onlyNumbers && validPort);
@@ -193,7 +236,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         private void ChangeTextBoxValidityState(TextBox sender, bool state)
         {
             sender.ForeColor = state ? System.Drawing.Color.Black : System.Drawing.Color.Firebrick;
-            ButtonBroadcast.Enabled = state;
+            if (sender.Enabled) ButtonBroadcast.Enabled = state;
         }
 
         /// <summary>

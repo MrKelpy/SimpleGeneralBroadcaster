@@ -76,6 +76,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxSubnet.Size = new System.Drawing.Size(212, 26);
             this.TextBoxSubnet.TabIndex = 2;
             this.TextBoxSubnet.Text = "192.168.1.0";
+            this.TextBoxSubnet.EnabledChanged += new System.EventHandler(this.TextBoxSubnet_EnabledChanged);
             this.TextBoxSubnet.TextChanged += new System.EventHandler(this.TextBoxSubnet_TextChanged);
             // 
             // TextBoxIPAddress
@@ -85,6 +86,8 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxIPAddress.Name = "TextBoxIPAddress";
             this.TextBoxIPAddress.Size = new System.Drawing.Size(212, 26);
             this.TextBoxIPAddress.TabIndex = 3;
+            this.TextBoxIPAddress.EnabledChanged += new System.EventHandler(this.TextBoxIPAddress_EnabledChanged);
+            this.TextBoxIPAddress.TextChanged += new System.EventHandler(this.TextBoxIPAddress_TextChanged);
             // 
             // LabelSubnetMask
             // 
