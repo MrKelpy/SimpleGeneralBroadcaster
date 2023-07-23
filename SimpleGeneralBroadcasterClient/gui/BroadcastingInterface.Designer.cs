@@ -57,6 +57,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.MinimumSize = new System.Drawing.Size(486, 310);
             this.Name = "BroadcastingInterface";
             this.Text = "SGB Client - Broadcast";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BroadcastingInterface_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BroadcastingInterface_FormClosed);
             this.ResumeLayout(false);
         }

@@ -38,6 +38,7 @@
           <HintPath>..\packages\MrKelpy.PgpsUtilsAEFC.1.2.4\lib\net472\PgpsUtilsAEFC.dll</HintPath>
         </Reference>
         <Reference Include="System" />
+        <Reference Include="System.Configuration" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />
         <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +55,9 @@
         <Compile Include="gui\BroadcastingInterface.Designer.cs" />
         <Compile Include="gui\MessagerInterface.cs" />
         <Compile Include="gui\MessagerInterface.Designer.cs" />
+        <Compile Include="networking\Formatting.cs" />
+        <Compile Include="networking\Messaging.cs" />
+        <Compile Include="networking\NetworkUtils.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <EmbeddedResource Include="gui\BroadcastingInterface.resx" />

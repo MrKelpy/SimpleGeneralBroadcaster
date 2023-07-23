@@ -19,12 +19,18 @@ namespace SimpleGeneralBroadcasterClient.gui
             InitializeComponent();
             CenterToParent();
         }
+        
+        /// <summary>
+        /// Writes the specified text to the text box.
+        /// </summary>
+        /// <param name="text">The text to be written</param>
+        public void Write(string text) => TextBoxConsole.AppendText(" " + text); 
 
         /// <summary>
         /// Mentions that a message was sent to the specified IP address in the text box.
         /// </summary>
         /// <param name="ip">The IP address the message was sent to</param>
-        public void MentionIP(string ip) => TextBoxConsole.AppendText($" Sending message to {ip}...{Environment.NewLine}");
+        public void MentionIP(string ip) => Write($"Sending message to {ip}...{Environment.NewLine}");
         
         /// <summary>
         /// When the form is closed, the CanMessage property is set to false, so that the
@@ -34,5 +40,16 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="e">The event arguments</param>
         private void BroadcastingInterface_FormClosed(object sender, FormClosedEventArgs e) =>
             this.CanMessage = false;
+
+        /// <summary>
+        /// When the form is closed, the CanMessage property is set to false, so that the
+        /// ips stop being sent messages.
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void BroadcastingInterface_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.CanMessage = false;
+        }
     }
 }

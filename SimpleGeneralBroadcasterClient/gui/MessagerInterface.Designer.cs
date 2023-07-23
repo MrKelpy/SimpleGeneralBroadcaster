@@ -36,7 +36,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.CheckBoxBroadcast = new System.Windows.Forms.CheckBox();
             this.TextBoxSubnet = new System.Windows.Forms.TextBox();
             this.TextBoxIPAddress = new System.Windows.Forms.TextBox();
-            this.LabelSubnetMask = new System.Windows.Forms.Label();
+            this.LabelSubnet = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.TextBoxMessage = new System.Windows.Forms.TextBox();
@@ -71,38 +71,37 @@ namespace SimpleGeneralBroadcasterClient.gui
             // 
             // TextBoxSubnet
             // 
-            this.TextBoxSubnet.Location = new System.Drawing.Point(125, 75);
+            this.TextBoxSubnet.Location = new System.Drawing.Point(150, 75);
             this.TextBoxSubnet.Name = "TextBoxSubnet";
-            this.TextBoxSubnet.Size = new System.Drawing.Size(212, 26);
+            this.TextBoxSubnet.Size = new System.Drawing.Size(187, 26);
             this.TextBoxSubnet.TabIndex = 2;
-            this.TextBoxSubnet.Text = "192.168.1.0";
             this.TextBoxSubnet.EnabledChanged += new System.EventHandler(this.TextBoxSubnet_EnabledChanged);
             this.TextBoxSubnet.TextChanged += new System.EventHandler(this.TextBoxSubnet_TextChanged);
             // 
             // TextBoxIPAddress
             // 
             this.TextBoxIPAddress.Enabled = false;
-            this.TextBoxIPAddress.Location = new System.Drawing.Point(125, 114);
+            this.TextBoxIPAddress.Location = new System.Drawing.Point(150, 114);
             this.TextBoxIPAddress.Name = "TextBoxIPAddress";
-            this.TextBoxIPAddress.Size = new System.Drawing.Size(212, 26);
+            this.TextBoxIPAddress.Size = new System.Drawing.Size(187, 26);
             this.TextBoxIPAddress.TabIndex = 3;
             this.TextBoxIPAddress.EnabledChanged += new System.EventHandler(this.TextBoxIPAddress_EnabledChanged);
             this.TextBoxIPAddress.TextChanged += new System.EventHandler(this.TextBoxIPAddress_TextChanged);
             // 
-            // LabelSubnetMask
+            // LabelSubnet
             // 
-            this.LabelSubnetMask.Location = new System.Drawing.Point(11, 75);
-            this.LabelSubnetMask.Name = "LabelSubnetMask";
-            this.LabelSubnetMask.Size = new System.Drawing.Size(108, 29);
-            this.LabelSubnetMask.TabIndex = 4;
-            this.LabelSubnetMask.Text = "Subnet Mask";
-            this.LabelSubnetMask.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LabelSubnet.Location = new System.Drawing.Point(11, 75);
+            this.LabelSubnet.Name = "LabelSubnet";
+            this.LabelSubnet.Size = new System.Drawing.Size(133, 29);
+            this.LabelSubnet.TabIndex = 4;
+            this.LabelSubnet.Text = "Subnet";
+            this.LabelSubnet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(11, 113);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 29);
+            this.label1.Size = new System.Drawing.Size(133, 29);
             this.label1.TabIndex = 5;
             this.label1.Text = "IP Address";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -139,7 +138,6 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxPort.Name = "TextBoxPort";
             this.TextBoxPort.Size = new System.Drawing.Size(72, 26);
             this.TextBoxPort.TabIndex = 10;
-            this.TextBoxPort.Text = "62300";
             this.TextBoxPort.TextChanged += new System.EventHandler(this.TextBoxPort_TextChanged);
             // 
             // MessagerInterface
@@ -152,7 +150,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TextBoxMessage);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.LabelSubnetMask);
+            this.Controls.Add(this.LabelSubnet);
             this.Controls.Add(this.TextBoxIPAddress);
             this.Controls.Add(this.TextBoxSubnet);
             this.Controls.Add(this.CheckBoxBroadcast);
@@ -166,19 +164,19 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.TextBox TextBoxPort;
+        public System.Windows.Forms.TextBox TextBoxPort;
 
         private System.Windows.Forms.Label label3;
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TextBoxMessage;
+        public System.Windows.Forms.TextBox TextBoxMessage;
 
-        private System.Windows.Forms.TextBox TextBoxSubnet;
-        private System.Windows.Forms.TextBox TextBoxIPAddress;
-        private System.Windows.Forms.Label LabelSubnetMask;
+        public System.Windows.Forms.TextBox TextBoxSubnet;
+        public System.Windows.Forms.TextBox TextBoxIPAddress;
+        private System.Windows.Forms.Label LabelSubnet;
         private System.Windows.Forms.Label label1;
 
-        private System.Windows.Forms.Button ButtonBroadcast;
+        public System.Windows.Forms.Button ButtonBroadcast;
         private System.Windows.Forms.CheckBox CheckBoxBroadcast;
 
         #endregion
