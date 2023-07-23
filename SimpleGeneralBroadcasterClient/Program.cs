@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SimpleGeneralBroadcasterClient.gui;
+// ReSharper disable InvalidXmlDocComment
 
 namespace SimpleGeneralBroadcasterClient
 {
@@ -23,10 +24,10 @@ namespace SimpleGeneralBroadcasterClient
         private static string Port { get; set; } = "63200";
         
         /// <summary>
-        /// The subnet mask to use to send messages.
+        /// The subnet to use to send messages.
         /// Works in conjunction with the ConsoleMode property.
         /// </summary>
-        private static string SubnetMask { get; set; } = "192.168.1.0";
+        private static string Subnet { get; set; } = "192.168.1.0";
         
         /// <summary>
         /// The message to send.
@@ -36,6 +37,11 @@ namespace SimpleGeneralBroadcasterClient
 
         /// <summary>
         /// The main entry point for the application.
+        ///
+        /// Command line arguments:
+        /// -p <port> - The port to use to send messages.
+        /// -s <subnet> - The subnet to use to send messages.
+        /// -m <message> - The message to send.
         /// </summary>
         /// <param name="args">The command line arguments of the app</param>
         [STAThread]
@@ -55,26 +61,26 @@ namespace SimpleGeneralBroadcasterClient
             // If there are command line arguments, run the app in console mode.
             Console.WriteLine(@"SGB Client - Console Mode");
             Console.WriteLine(@"-------------------------");
-            Console.WriteLine(@$"Message: {Message}\nSubnet Mask: {SubnetMask}\nPort: {Port}");
+            Console.WriteLine(@$"Message: {Message}\nSubnet: {Subnet}\nPort: {Port}");
             Console.WriteLine(@"-------------------------");
 
             // Initialise the messager interface and validate the inputs.
-            MessagerInterface messager = new MessagerInterface(ConsoleMode);
+            MessagerInterface messager = new (ConsoleMode);
             messager.TextBoxMessage.Text = Message;
-            messager.TextBoxIPAddress.Text = SubnetMask;
+            messager.TextBoxIPAddress.Text = Subnet;
             messager.TextBoxPort.Text = Port;
 
             // If at least one of the inputs are invalid, return.
             if (!messager.ButtonBroadcast.Enabled)
             {
-                Console.WriteLine(@"Status: Message not sent.");
+                Console.WriteLine(@"Status: Messaging Failed");
                 Console.WriteLine(@"One or more of the inputs are invalid. Please try again.");
                 return;
             }
             
             // If all the inputs are valid, send the message.
             messager.ButtonBroadcast.PerformClick();
-            Console.WriteLine(@"Status: Message sent.");
+            Console.WriteLine(@"Status: Messaging OK");
         }
 
         /// <summary>
@@ -94,9 +100,9 @@ namespace SimpleGeneralBroadcasterClient
             if (args.Length > 0 && args.Contains("-p"))
                 Port = args[args.ToList().IndexOf("-p") + 1];
 
-            // If there is a command line argument specifying the subnet mask, use that instead.
+            // If there is a command line argument specifying the subnet, use that instead.
             if (args.Length > 0 && args.Contains("-s"))
-                SubnetMask = args[args.ToList().IndexOf("-s") + 1];
+                Subnet = args[args.ToList().IndexOf("-s") + 1];
             
             // If there is a command line argument specifying the message, use that instead.
             if (args.Length > 0 && args.Contains("-m"))
