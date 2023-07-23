@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
-            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -34,16 +33,132 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
+        <Reference Include="PgpsUtilsAEFC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\MrKelpy.PgpsUtilsAEFC.1.2.4\lib\net472\PgpsUtilsAEFC.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Program.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="common\Logging.cs" />
+        <Compile Include="Program.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <ItemGroup>
+      <None Include="App.config" />
+      <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="docs\conf.py" />
+      <Content Include="docs\images\installation_nuget_install.png" />
+      <Content Include="docs\images\installation_nuget_search.png" />
+      <Content Include="docs\index.rst" />
+      <Content Include="docs\make.bat" />
+      <Content Include="docs\Makefile" />
+      <Content Include="docs\reference\common\AbstractBaseOperations.rst" />
+      <Content Include="docs\reference\common\FileManager.rst" />
+      <Content Include="docs\reference\common\index.rst" />
+      <Content Include="docs\reference\common\Section.rst" />
+      <Content Include="docs\reference\forms\extensions\ControlExtensions.rst" />
+      <Content Include="docs\reference\forms\extensions\PanelExtensions.rst" />
+      <Content Include="docs\reference\forms\index.rst" />
+      <Content Include="docs\reference\internals\caches\OriginalParentCache.rst" />
+      <Content Include="docs\reference\internals\index.rst" />
+      <Content Include="docs\reference\utils\FileUtils.rst" />
+      <Content Include="docs\reference\utils\index.rst" />
+      <Content Include="docs\reference\utils\PathUtils.rst" />
+      <Content Include="docs\reference\utils\XMLUtils.rst" />
+      <Content Include="docs\usage\examples.rst" />
+      <Content Include="docs\usage\installation.rst" />
+      <Content Include="docs\_build\doctrees\environment.pickle" />
+      <Content Include="docs\_build\doctrees\index.doctree" />
+      <Content Include="docs\_build\doctrees\reference\common\AbstractBaseOperations.doctree" />
+      <Content Include="docs\_build\doctrees\reference\common\FileManager.doctree" />
+      <Content Include="docs\_build\doctrees\reference\common\index.doctree" />
+      <Content Include="docs\_build\doctrees\reference\common\Section.doctree" />
+      <Content Include="docs\_build\doctrees\reference\forms\extensions\ControlExtensions.doctree" />
+      <Content Include="docs\_build\doctrees\reference\forms\extensions\PanelExtensions.doctree" />
+      <Content Include="docs\_build\doctrees\reference\forms\index.doctree" />
+      <Content Include="docs\_build\doctrees\reference\internals\caches\OriginalParentCache.doctree" />
+      <Content Include="docs\_build\doctrees\reference\internals\index.doctree" />
+      <Content Include="docs\_build\doctrees\reference\utils\FileUtils.doctree" />
+      <Content Include="docs\_build\doctrees\reference\utils\index.doctree" />
+      <Content Include="docs\_build\doctrees\reference\utils\XMLUtils.doctree" />
+      <Content Include="docs\_build\doctrees\usage\examples.doctree" />
+      <Content Include="docs\_build\doctrees\usage\installation.doctree" />
+      <Content Include="docs\_build\html\genindex.html" />
+      <Content Include="docs\_build\html\index.html" />
+      <Content Include="docs\_build\html\objects.inv" />
+      <Content Include="docs\_build\html\reference\common\AbstractBaseOperations.html" />
+      <Content Include="docs\_build\html\reference\common\FileManager.html" />
+      <Content Include="docs\_build\html\reference\common\index.html" />
+      <Content Include="docs\_build\html\reference\common\Section.html" />
+      <Content Include="docs\_build\html\reference\forms\extensions\ControlExtensions.html" />
+      <Content Include="docs\_build\html\reference\forms\extensions\PanelExtensions.html" />
+      <Content Include="docs\_build\html\reference\forms\index.html" />
+      <Content Include="docs\_build\html\reference\internals\caches\OriginalParentCache.html" />
+      <Content Include="docs\_build\html\reference\internals\index.html" />
+      <Content Include="docs\_build\html\reference\utils\FileUtils.html" />
+      <Content Include="docs\_build\html\reference\utils\index.html" />
+      <Content Include="docs\_build\html\reference\utils\XMLUtils.html" />
+      <Content Include="docs\_build\html\search.html" />
+      <Content Include="docs\_build\html\searchindex.js" />
+      <Content Include="docs\_build\html\usage\examples.html" />
+      <Content Include="docs\_build\html\usage\installation.html" />
+      <Content Include="docs\_build\html\_images\installation_nuget_install.png" />
+      <Content Include="docs\_build\html\_images\installation_nuget_search.png" />
+      <Content Include="docs\_build\html\_sources\index.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\common\AbstractBaseOperations.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\common\FileManager.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\common\index.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\common\Section.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\forms\extensions\ControlExtensions.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\forms\extensions\PanelExtensions.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\forms\index.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\internals\caches\OriginalParentCache.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\internals\index.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\utils\FileUtils.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\utils\index.rst.txt" />
+      <Content Include="docs\_build\html\_sources\reference\utils\XMLUtils.rst.txt" />
+      <Content Include="docs\_build\html\_sources\usage\examples.rst.txt" />
+      <Content Include="docs\_build\html\_sources\usage\installation.rst.txt" />
+      <Content Include="docs\_build\html\_static\basic.css" />
+      <Content Include="docs\_build\html\_static\css\badge_only.css" />
+      <Content Include="docs\_build\html\_static\css\fonts\fontawesome-webfont.eot" />
+      <Content Include="docs\_build\html\_static\css\fonts\fontawesome-webfont.svg" />
+      <Content Include="docs\_build\html\_static\css\fonts\fontawesome-webfont.ttf" />
+      <Content Include="docs\_build\html\_static\css\fonts\fontawesome-webfont.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\fontawesome-webfont.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-bold-italic.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-bold-italic.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-bold.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-bold.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-normal-italic.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-normal-italic.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-normal.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\lato-normal.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\Roboto-Slab-Bold.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\Roboto-Slab-Bold.woff2" />
+      <Content Include="docs\_build\html\_static\css\fonts\Roboto-Slab-Regular.woff" />
+      <Content Include="docs\_build\html\_static\css\fonts\Roboto-Slab-Regular.woff2" />
+      <Content Include="docs\_build\html\_static\css\theme.css" />
+      <Content Include="docs\_build\html\_static\doctools.js" />
+      <Content Include="docs\_build\html\_static\documentation_options.js" />
+      <Content Include="docs\_build\html\_static\file.png" />
+      <Content Include="docs\_build\html\_static\js\badge_only.js" />
+      <Content Include="docs\_build\html\_static\js\html5shiv-printshiv.min.js" />
+      <Content Include="docs\_build\html\_static\js\html5shiv.min.js" />
+      <Content Include="docs\_build\html\_static\js\theme.js" />
+      <Content Include="docs\_build\html\_static\language_data.js" />
+      <Content Include="docs\_build\html\_static\minus.png" />
+      <Content Include="docs\_build\html\_static\plus.png" />
+      <Content Include="docs\_build\html\_static\pygments.css" />
+      <Content Include="docs\_build\html\_static\searchtools.js" />
+      <Content Include="docs\_build\html\_static\sphinx_highlight.js" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
