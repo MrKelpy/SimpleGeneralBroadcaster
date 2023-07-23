@@ -161,7 +161,7 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.MaximumSize = new System.Drawing.Size(373, 336);
             this.MinimumSize = new System.Drawing.Size(373, 336);
             this.Name = "MessagerInterface";
-            this.Text = "MessagerInterface";
+            this.Text = "SGB Client";
             this.ResumeLayout(false);
             this.PerformLayout();
         }
