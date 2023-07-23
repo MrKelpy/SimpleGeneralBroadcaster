@@ -8,12 +8,21 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 // ReSharper disable InconsistentNaming
+// ReSharper disable InvalidXmlDocComment
 
 namespace SimpleGeneralBroadcasterClient.gui
 {
     /// <summary>
     /// The messaging interface for the application; Allows the user to send either broadcast
-    /// or ip-specific messages to a 
+    /// or ip-specific messages to a server.
+    ///
+    /// <MessagingProtocol>
+    /// - All messages should be finished by the flag "<|EOF|>".
+    /// - Additional flags may be added to the end EOF flag, such as "<|EOF|FLAG|...>".
+    /// - The server should only respond using flags.
+    /// - The client is only allowed to use the EOF flag.
+    /// - The server is allowed to use any flag.
+    /// </MessagingProtocol>
     /// </summary>
     public partial class MessagerInterface : Form
     {
