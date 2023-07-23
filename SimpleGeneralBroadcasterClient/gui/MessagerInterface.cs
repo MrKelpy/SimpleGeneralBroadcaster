@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace SimpleGeneralBroadcasterClient.gui
 {
+    
     /// <summary>
     /// The messaging interface for the application; Allows the user to send either broadcast
     /// or ip-specific messages to a server.
@@ -24,12 +25,20 @@ namespace SimpleGeneralBroadcasterClient.gui
     /// - The server is allowed to use any flag.
     /// </MessagingProtocol>
     /// </summary>
+    /// <param name="consoleMode">Whether or not to run the application in the console only.<param>
     public partial class MessagerInterface : Form
     {
-        public MessagerInterface()
+        
+        /// <summary>
+        /// Whether the application is running in console mode or not.
+        /// </summary>
+        private bool ConsoleMode { get; }
+        
+        public MessagerInterface(bool consoleMode)
         {
             InitializeComponent();
             CenterToScreen();
+            this.ConsoleMode = consoleMode;
         }
 
         /// <summary>
@@ -42,7 +51,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         {
             // Create a new broadcasting interface to update with the IP responses
             BroadcastingInterface inter = new ();
-            inter.Show();
+            if (ConsoleMode) inter.Show();
             
             // Broadcast the message if the broadcast mode is enabled
             if (CheckBoxBroadcast.Checked)
@@ -80,7 +89,11 @@ namespace SimpleGeneralBroadcasterClient.gui
             // Parse the IP address and port
             IPAddress ip = IPAddress.Parse(ipAddress);
             int port = int.Parse(TextBoxPort.Text);
-            inter.MentionIP(ipAddress);
+            
+            // Update the broadcasting interface with the IP address or mention it in the console
+            // Depending on whether the application is running in console mode or not
+            if (ConsoleMode) inter.MentionIP(ipAddress);
+            else Console.WriteLine($@"Sending message to {ipAddress}...");
             
             // Send the message asynchronously and updates the broadcasting interface
             Task.Run(() => this.SendMessage(ip, port, message));

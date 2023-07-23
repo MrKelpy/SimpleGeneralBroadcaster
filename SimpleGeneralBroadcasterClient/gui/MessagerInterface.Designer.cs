@@ -166,19 +166,19 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.TextBox TextBoxPort;
+        public System.Windows.Forms.TextBox TextBoxPort;
 
         private System.Windows.Forms.Label label3;
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TextBoxMessage;
+        public System.Windows.Forms.TextBox TextBoxMessage;
 
-        private System.Windows.Forms.TextBox TextBoxSubnet;
-        private System.Windows.Forms.TextBox TextBoxIPAddress;
+        public System.Windows.Forms.TextBox TextBoxSubnet;
+        public System.Windows.Forms.TextBox TextBoxIPAddress;
         private System.Windows.Forms.Label LabelSubnetMask;
         private System.Windows.Forms.Label label1;
 
-        private System.Windows.Forms.Button ButtonBroadcast;
+        public System.Windows.Forms.Button ButtonBroadcast;
         private System.Windows.Forms.CheckBox CheckBoxBroadcast;
 
         #endregion
