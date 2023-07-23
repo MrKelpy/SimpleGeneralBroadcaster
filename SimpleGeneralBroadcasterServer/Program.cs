@@ -31,11 +31,10 @@ namespace SimpleGeneralBroadcasterServer
     /// </summary>
     internal static class Program
     {
-
         /// <summary>
         /// Initialises a FileSystem for easy file management.
         /// </summary>
-        private static FileManager FileSystem { get; } = new FileManager();
+        private static FileManager FileSystem { get; } = new FileManager("./data");
 
         /// <summary>
         /// Sets up everything needed for the server to run and kick starts the server.
