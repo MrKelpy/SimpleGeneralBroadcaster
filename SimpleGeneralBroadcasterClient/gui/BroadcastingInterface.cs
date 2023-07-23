@@ -40,5 +40,16 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="e">The event arguments</param>
         private void BroadcastingInterface_FormClosed(object sender, FormClosedEventArgs e) =>
             this.CanMessage = false;
+
+        /// <summary>
+        /// When the form is closed, the CanMessage property is set to false, so that the
+        /// ips stop being sent messages.
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">The event arguments</param>
+        private void BroadcastingInterface_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.CanMessage = false;
+        }
     }
 }

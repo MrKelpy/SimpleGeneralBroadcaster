@@ -16,7 +16,7 @@ public static class Messaging
     /// Broadcasts a message to all devices through permutations on a specified network
     /// according to the subnet.
     /// </summary>
-    /// <param name="Subnet">The subnet to use</param>
+    /// <param name="subnet">The subnet to use</param>
     /// <param name="port">The port to use</param>
     /// <param name="message">The message to broadcast</param>
     /// <param name="consoleMode">IP Mentioning mode</param>

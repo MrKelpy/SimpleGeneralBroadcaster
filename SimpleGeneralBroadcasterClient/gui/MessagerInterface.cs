@@ -149,15 +149,8 @@ namespace SimpleGeneralBroadcasterClient.gui
         /// <param name="sender">The event sender</param>
         /// <param name="e">The event arguments</param>
         /// <exception cref="NotImplementedException"></exception>
-        private void TextBoxPort_TextChanged(object sender, EventArgs e)
-        {
-            // Ensure that the port box is formatted correctly, as in a number between 0 and 65535
-            bool onlyNumbers = this.TextBoxPort.Text.All(char.IsDigit);
-            bool validPort = int.TryParse(this.TextBoxPort.Text, out int port) && port is < 65536 and >= 0;
-            
-            // Change the validity state of the text box
-            ChangeTextBoxValidityState((TextBox) sender, onlyNumbers && validPort);
-        }
+        private void TextBoxPort_TextChanged(object sender, EventArgs e) =>
+            ChangeTextBoxValidityState(TextBoxPort, Formatting.IsPortNumber(TextBoxPort.Text));
 
         /// <summary>
         /// Changes the TextBox validity state to either valid or invalid.
@@ -169,7 +162,7 @@ namespace SimpleGeneralBroadcasterClient.gui
         private void ChangeTextBoxValidityState(TextBox sender, bool state)
         {
             sender.ForeColor = state ? System.Drawing.Color.Black : System.Drawing.Color.Firebrick;
-            if (sender.Enabled) ButtonBroadcast.Enabled = state;
+            if (sender.Enabled && !string.IsNullOrWhiteSpace(this.TextBoxMessage.Text)) ButtonBroadcast.Enabled = state;
         }
 
         /// <summary>

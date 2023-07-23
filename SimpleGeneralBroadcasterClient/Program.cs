@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SimpleGeneralBroadcasterClient.gui;
+using SimpleGeneralBroadcasterClient.networking;
+
 // ReSharper disable InvalidXmlDocComment
 
 namespace SimpleGeneralBroadcasterClient
@@ -63,15 +65,9 @@ namespace SimpleGeneralBroadcasterClient
             Console.WriteLine(@"-------------------------");
             Console.WriteLine(@$"Message: {Message}\nSubnet: {Subnet}\nPort: {Port}");
             Console.WriteLine(@"-------------------------");
-
-            // Initialise the messager interface and validate the inputs.
-            MessagerInterface messager = new (ConsoleMode);
-            messager.TextBoxMessage.Text = Message;
-            messager.TextBoxIPAddress.Text = Subnet;
-            messager.TextBoxPort.Text = Port;
-
-            // If at least one of the inputs are invalid, return.
-            if (!messager.ButtonBroadcast.Enabled)
+            
+            // If at least one of the inputs is invalid, return.
+            if (string.IsNullOrWhiteSpace(Message) || !Formatting.IsSubnetFormatted(Subnet) || !Formatting.IsPortNumber(Port))
             {
                 Console.WriteLine(@"Status: Messaging Failed");
                 Console.WriteLine(@"One or more of the inputs are invalid. Please try again.");
@@ -79,8 +75,8 @@ namespace SimpleGeneralBroadcasterClient
             }
             
             // If all the inputs are valid, send the message.
-            messager.ButtonBroadcast.PerformClick();
             Console.WriteLine(@"Status: Messaging OK");
+            Messaging.BroadcastMessage(Subnet, int.Parse(Port), Message, ConsoleMode, new BroadcastingInterface());
         }
 
         /// <summary>
