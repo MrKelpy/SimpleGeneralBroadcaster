@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SimpleGeneralBroadcasterClient.gui;
 
@@ -68,7 +68,6 @@ public static class Messaging
     {
         // Create the socket and connect to it
         IPEndPoint endPoint = new (ipAddress, port);
-        using Socket client = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         
         // Make sure that the message is according to the protocol by adding the EOF tag if it's not there
         // Encode the message to bytes in UTF-8
@@ -76,8 +75,8 @@ public static class Messaging
         byte[] messageBytes = Encoding.UTF8.GetBytes(message);
         
         // Connect to the server, send the message, and close the connection
-        await client.ConnectAsync(endPoint);
-        await client.SendAsync(new ArraySegment<byte>(messageBytes), SocketFlags.None);
-        client.Close();
+        await Program.Client.ConnectAsync(endPoint);
+        await Program.Client.SendAsync(new ArraySegment<byte>(messageBytes), SocketFlags.None);
+        Program.Client.Disconnect(true);
     }
 }

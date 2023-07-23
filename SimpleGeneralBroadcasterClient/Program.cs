@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SimpleGeneralBroadcasterClient.gui;
@@ -21,6 +22,11 @@ namespace SimpleGeneralBroadcasterClient
         /// the GUI mode is used to send messages from the GUI interface provided.
         /// </summary>
         private static bool ConsoleMode { get; set; } = false;
+        
+        /// <summary>
+        /// The socket to use to send messages.
+        /// </summary>
+        public static Socket Client = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); 
 
         /// <summary>
         /// The port to use to send messages.
@@ -107,15 +113,15 @@ namespace SimpleGeneralBroadcasterClient
 
             // If there is a command line argument specifying the port, use that instead.
             if (args.Length > 0 && args.Contains("-p"))
-                Port = args[args.ToList().IndexOf("-p") + 1];
+                Port = args[args.ToList().IndexOf("-p") + 1].Trim();
 
             // If there is a command line argument specifying the subnet, use that instead.
             if (args.Length > 0 && args.Contains("-s"))
-                Subnet = args[args.ToList().IndexOf("-s") + 1];
+                Subnet = args[args.ToList().IndexOf("-s") + 1].Trim();
             
             // If there is a command line argument specifying the message, use that instead.
             if (args.Length > 0 && args.Contains("-m"))
-                Message = args[args.ToList().IndexOf("-m") + 1];
+                Message = args[args.ToList().IndexOf("-m") + 1].Trim();
         }
     }
 }
