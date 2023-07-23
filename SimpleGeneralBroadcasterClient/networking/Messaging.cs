@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -30,7 +31,8 @@ public static class Messaging
             SendToIP(ipAddress, port, message, consoleMode, inter);
         }
         
-        inter.Write("Broadcasting finished.");
+        if (consoleMode) Console.WriteLine(@"Broadcasting finished.");
+        else inter.Write(@"Broadcasting finished.");
     }
     
     /// <summary>

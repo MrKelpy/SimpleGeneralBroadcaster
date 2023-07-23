@@ -75,7 +75,6 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxSubnet.Name = "TextBoxSubnet";
             this.TextBoxSubnet.Size = new System.Drawing.Size(187, 26);
             this.TextBoxSubnet.TabIndex = 2;
-            this.TextBoxSubnet.Text = "192.168.1.0";
             this.TextBoxSubnet.EnabledChanged += new System.EventHandler(this.TextBoxSubnet_EnabledChanged);
             this.TextBoxSubnet.TextChanged += new System.EventHandler(this.TextBoxSubnet_TextChanged);
             // 
@@ -139,7 +138,6 @@ namespace SimpleGeneralBroadcasterClient.gui
             this.TextBoxPort.Name = "TextBoxPort";
             this.TextBoxPort.Size = new System.Drawing.Size(72, 26);
             this.TextBoxPort.TabIndex = 10;
-            this.TextBoxPort.Text = "62300";
             this.TextBoxPort.TextChanged += new System.EventHandler(this.TextBoxPort_TextChanged);
             // 
             // MessagerInterface

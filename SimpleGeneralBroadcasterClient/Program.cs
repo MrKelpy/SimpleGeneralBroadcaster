@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,19 +26,25 @@ namespace SimpleGeneralBroadcasterClient
         /// The port to use to send messages.
         /// Works in conjunction with the ConsoleMode property.
         /// </summary>
-        private static string Port { get; set; } = "63200";
+        private static string Port { get; set; } = ConfigurationManager.AppSettings.Get("default.port");
         
         /// <summary>
         /// The subnet to use to send messages.
         /// Works in conjunction with the ConsoleMode property.
         /// </summary>
-        private static string Subnet { get; set; } = "192.168.1.0";
+        private static string Subnet { get; set; } = ConfigurationManager.AppSettings.Get("default.subnet");
         
         /// <summary>
         /// The message to send.
         /// Works in conjunction with the ConsoleMode property.
         /// </summary>
         private static string Message { get; set; } = String.Empty;
+        
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AttachConsole(int pid);
 
         /// <summary>
         /// The main entry point for the application.
@@ -47,11 +56,12 @@ namespace SimpleGeneralBroadcasterClient
         /// </summary>
         /// <param name="args">The command line arguments of the app</param>
         [STAThread]
+        [SuppressMessage("ReSharper", "LocalizableElement")]
         static void Main(string[] args)
         {
             // Process the command line arguments if there are any.
             Program.ProcessCommandLineArguments(args);
-            
+
             // If there are no command line arguments, run the GUI.
             if (!ConsoleMode) {
                 Application.EnableVisualStyles();
@@ -60,10 +70,13 @@ namespace SimpleGeneralBroadcasterClient
                 return;
             }
             
+            // Attach the console to the process or allocate a new one.
+            if ( !AttachConsole(-1) ) AllocConsole();
+            
             // If there are command line arguments, run the app in console mode.
             Console.WriteLine(@"SGB Client - Console Mode");
             Console.WriteLine(@"-------------------------");
-            Console.WriteLine(@$"Message: {Message}\nSubnet: {Subnet}\nPort: {Port}");
+            Console.WriteLine($"Message: {Message}\nSubnet: {Subnet}\nPort: {Port}");
             Console.WriteLine(@"-------------------------");
             
             // If at least one of the inputs is invalid, return.

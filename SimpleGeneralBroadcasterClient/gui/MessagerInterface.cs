@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -46,6 +47,8 @@ namespace SimpleGeneralBroadcasterClient.gui
             InitializeComponent();
             CenterToScreen();
             this.ConsoleMode = consoleMode;
+            this.TextBoxPort.Text = ConfigurationManager.AppSettings.Get("default.port");
+            this.TextBoxSubnet.Text = ConfigurationManager.AppSettings.Get("default.subnet");
         }
 
         /// <summary>

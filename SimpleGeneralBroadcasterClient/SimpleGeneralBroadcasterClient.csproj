@@ -38,6 +38,7 @@
           <HintPath>..\packages\MrKelpy.PgpsUtilsAEFC.1.2.4\lib\net472\PgpsUtilsAEFC.dll</HintPath>
         </Reference>
         <Reference Include="System" />
+        <Reference Include="System.Configuration" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />
         <Reference Include="System.Data.DataSetExtensions" />
