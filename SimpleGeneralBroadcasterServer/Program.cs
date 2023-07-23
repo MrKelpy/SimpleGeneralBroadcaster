@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -9,7 +10,6 @@ using System.Text;
 using MCSMLauncher.common;
 using PgpsUtilsAEFC.common;
 using PgpsUtilsAEFC.utils;
-using static System.Configuration.ConfigurationSettings;
 // ReSharper disable InvalidXmlDocComment
 // ReSharper disable InconsistentNaming
 
@@ -23,7 +23,7 @@ namespace SimpleGeneralBroadcasterServer
     ///
     /// <MessagingProtocol>
     /// - All messages should be finished by the flag "<|EOF|>".
-    /// - Additional flags may be added to the end EOF flag, such as "<|EOF|FLAG|...>".
+    /// - Additional flags may be added before the EOF flag, such as "<|FLAG|EOF|...>".
     /// - The server should only respond using flags.
     /// - The client is only allowed to use the EOF flag.
     /// - The server is allowed to use any flag.
@@ -87,8 +87,8 @@ namespace SimpleGeneralBroadcasterServer
             Logging.LOGGER.LoggingFilePath = FileSystem.AddSection("logs").AddDocument(Logging.LOGGER.LoggingSession + ".log");
             
             // Get the configuration file instructions from the app.config file.
-            string commands_config = AppSettings.Get("commands_configuration_file");
-            string ip_whitelist = AppSettings.Get("ips_whitelist_file");
+            string commands_config = ConfigurationManager.AppSettings.Get("commands_configuration_file");
+            string ip_whitelist = ConfigurationManager.AppSettings.Get("ips_whitelist_file");
 
             // Check if the server configuration file exists, if not, create it.
             if (FileSystem.GetFirstDocumentNamed("commands.cfg") == null)
@@ -125,7 +125,7 @@ namespace SimpleGeneralBroadcasterServer
 
                 if (!whitelist.Contains(clientIPAddr))
                 {
-                    client.Send(Encoding.UTF8.GetBytes("<|EOF|BLOCKED|>"));
+                    client.Send(Encoding.UTF8.GetBytes("<|BLOCKED|EOF|>"));
                     client.Close();
                     Logging.LOGGER.Warn($"Connection from {clientIPAddr} was blocked.");
                     continue;
@@ -157,14 +157,14 @@ namespace SimpleGeneralBroadcasterServer
                 {
                     if (e.SocketErrorCode != SocketError.TimedOut) return;
                     Logging.LOGGER.Warn($"Socket from {clientIPAddr} timed out, closing connection.");
-                    client.Send(Encoding.UTF8.GetBytes("<|EOF|TIMEOUT|>"));
+                    client.Send(Encoding.UTF8.GetBytes("<|TIMEOUT|EOF|>"));
                     client.Close();
                     continue;
                 }
                 
                 // The message has been received, and the connection can be closed, and we can try for a command.
                 Logging.LOGGER.Info($"Message received from {clientIPAddr}: {data}");
-                client.Send(Encoding.UTF8.GetBytes("<|EOF|OK|>"));
+                client.Send(Encoding.UTF8.GetBytes("<|OK|EOF|>"));
                 client.Close();
                 
                 // Remove the <|EOF|> from the message, so it can be mapped to a command.
